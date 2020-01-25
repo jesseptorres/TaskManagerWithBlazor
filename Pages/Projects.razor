@@ -1,0 +1,81 @@
+﻿@page "/projects"
+
+@using TaskManagerWithBlazor.Models
+@using System.Diagnostics
+
+<h3>Projects</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in projects)
+        {
+            <tr>
+                <td>
+                    @project.Id
+                </td>
+                <td>
+                    @project.Name
+                </td>
+                <td>
+                    <a href="/project/@project.Id">Edit</a>
+                    &nbsp;|&nbsp;
+                    <a href="#" @onclick="() => { DeleteProject(project.Id); }" @onclick:preventDefault>Delete</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+Project name: <input type="text" @bind-value="NewProjectName" />
+
+<button class="btn btn-primary" @onclick="AddProject" >Add Project</button>
+
+
+
+
+@code {
+
+    private List<Models.Project> projects = new List<Models.Project>();
+
+    private string NewProjectName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = DataStore.GetAllProjects();
+
+    }
+
+    
+
+    private void AddProject()
+    {
+        DataStore.AddProject(NewProjectName);
+        
+        NewProjectName = string.Empty;
+
+        StateHasChanged();
+    }
+
+    private void DeleteProject(int id)
+    {
+        DataStore.DeleteProject(id);
+
+        StateHasChanged();
+    }
+
+
+
+
+
+
+}

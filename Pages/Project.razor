@@ -1,0 +1,90 @@
+﻿@page "/project/{Id:int}"
+
+@using TaskManagerWithBlazor.Models
+@using System.Diagnostics
+
+<h3>Project Tasks for @Name</h3>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var projectTask in ProjectTasks)
+        {
+            <tr>
+                <td>@projectTask.Id</td>
+                <td>@projectTask.Description</td>
+                <td>
+                    <a href="/projecttask/@projectTask.Id">Edit</a>
+                    &nbsp;|&nbsp;                    
+                    <a href="#" @onclick="() => { DeleteTask(projectTask.Id); }" @onclick:preventDefault>Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+Task name:
+<input type="text" @bind-value="NewTaskName" />
+
+<button class="btn btn-primary" @onclick="AddTask">Add Task</button>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private string Name { get; set; }
+
+    private Models.Project SelectedProject;
+
+    private List<Models.ProjectTask> ProjectTasks;
+
+    private string NewTaskName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Load();
+
+        Name = SelectedProject.Name;
+
+        Debug.WriteLine(Id);
+
+    }
+
+
+    private void AddTask()
+    {
+        DataStore.AddProjectTask(Id, NewTaskName);
+
+        NewTaskName = string.Empty;
+
+        Load();
+
+        StateHasChanged();
+    }
+
+    private void DeleteTask(int id)
+    {
+        DataStore.DeleteProjectTask(id);
+
+        Load();
+
+        StateHasChanged();
+    }
+
+    private void Load() 
+    { 
+        SelectedProject = DataStore.GetProject(Id);
+
+        ProjectTasks = SelectedProject.ProjectTasks;
+    }
+
+}
