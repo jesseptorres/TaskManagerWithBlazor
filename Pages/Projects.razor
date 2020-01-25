@@ -3,6 +3,8 @@
 @using TaskManagerWithBlazor.Models
 @using System.Diagnostics
 
+@inject ProjectDataService ProjectDataService
+
 <h3>Projects</h3>
 
 
@@ -51,7 +53,7 @@ Project name: <input type="text" @bind-value="NewProjectName" />
 
     protected override async Task OnInitializedAsync()
     {
-        projects = DataStore.GetAllProjects();
+        projects = ProjectDataService.GetAllProjects();
 
     }
 
@@ -59,7 +61,7 @@ Project name: <input type="text" @bind-value="NewProjectName" />
 
     private void AddProject()
     {
-        DataStore.AddProject(NewProjectName);
+        ProjectDataService.AddProject(NewProjectName);
         
         NewProjectName = string.Empty;
 
@@ -68,7 +70,7 @@ Project name: <input type="text" @bind-value="NewProjectName" />
 
     private void DeleteProject(int id)
     {
-        DataStore.DeleteProject(id);
+        ProjectDataService.DeleteProject(id);
 
         StateHasChanged();
     }

@@ -3,6 +3,8 @@
 @using TaskManagerWithBlazor.Models
 @using System.Diagnostics
 
+@inject ProjectDataService ProjectDataService
+
 <h3>Project Tasks for @Name</h3>
 
 
@@ -62,7 +64,7 @@ Task name:
 
     private void AddTask()
     {
-        DataStore.AddProjectTask(Id, NewTaskName);
+        ProjectDataService.AddProjectTask(Id, NewTaskName);
 
         NewTaskName = string.Empty;
 
@@ -73,7 +75,7 @@ Task name:
 
     private void DeleteTask(int id)
     {
-        DataStore.DeleteProjectTask(id);
+        ProjectDataService.DeleteProjectTask(id);
 
         Load();
 
@@ -82,7 +84,7 @@ Task name:
 
     private void Load() 
     { 
-        SelectedProject = DataStore.GetProject(Id);
+        SelectedProject = ProjectDataService.GetProject(Id);
 
         ProjectTasks = SelectedProject.ProjectTasks;
     }

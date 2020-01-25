@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace TaskManagerWithBlazor.Models
 {
-    public static class DataStore
+    public class ProjectDataService
     {
         private static List<Project> Projects = new List<Project>();
 
         private static List<ProjectTask> ProjectTasks = new List<ProjectTask>();
 
-        public static List<Project> GetAllProjects() 
+        public List<Project> GetAllProjects() 
         {
             var projects = new List<Project>();
 
@@ -25,7 +25,7 @@ namespace TaskManagerWithBlazor.Models
             return Projects;
         }
 
-        public static Project GetProject(int id) 
+        public Project GetProject(int id) 
         {
             var project = Projects.FirstOrDefault(x => x.Id == id);
 
@@ -37,7 +37,7 @@ namespace TaskManagerWithBlazor.Models
             return project;
         }
 
-        public static void AddProject(string name) 
+        public void AddProject(string name) 
         {
             var id = Projects.Any() ? Projects.Max(x => x.Id) + 1 : 1;
 
@@ -50,7 +50,7 @@ namespace TaskManagerWithBlazor.Models
             Projects.Add(newProject);
         }
 
-        public static void DeleteProject(int id) 
+        public void DeleteProject(int id) 
         {
             var projectToDelete = Projects.FirstOrDefault(x => x.Id == id);
 
@@ -60,12 +60,12 @@ namespace TaskManagerWithBlazor.Models
             }            
         }
 
-        public static List<ProjectTask> GetProjectTasks(int projectId) 
+        public List<ProjectTask> GetProjectTasks(int projectId) 
         {
             return ProjectTasks.Where(x => x.ProjectId == projectId).ToList();
         }
 
-        public static void AddProjectTask(int projectId, string description) 
+        public void AddProjectTask(int projectId, string description) 
         {
             var id = ProjectTasks.Any() ? ProjectTasks.Max(x => x.Id) + 1 : 1;
 
@@ -79,7 +79,7 @@ namespace TaskManagerWithBlazor.Models
             ProjectTasks.Add(newProjectTask);            
         }
 
-        public static void DeleteProjectTask(int id) 
+        public void DeleteProjectTask(int id) 
         {
             var projectTaskToDelete = ProjectTasks.FirstOrDefault(x => x.Id == id);
 

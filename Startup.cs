@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TaskManagerWithBlazor.Data;
+using TaskManagerWithBlazor.Models;
 
 namespace TaskManagerWithBlazor
 {
@@ -29,6 +30,8 @@ namespace TaskManagerWithBlazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddSingleton<ProjectDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
